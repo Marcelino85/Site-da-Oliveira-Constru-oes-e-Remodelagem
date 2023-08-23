@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel de Imagens</title>
+    <style>
+        #carousel {
+            display: flex;
+            overflow: hidden;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #carousel img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        #controls {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #pause {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="carousel">
+        <img src="logo branco.jpg" alt="Imagem 1" onclick="openImage('imagem1.jpg')">
+        <img src="logo dourada.jpg" alt="Imagem 2" onclick="openImage('imagem2.jpg')">
+        <img src="logo letras brancas.jpg" alt="Imagem 3" onclick="openImage('imagem3.jpg')">
+    </div>
+    <div id="controls">
+        <button id="prev" onclick="prevImage()">&lt; Anterior</button>
+        <button id="play" onclick="togglePlay()">Play</button>
+        <button id="next" onclick="nextImage()">Próximo &gt;</button>
+    </div>
+    
+    <script>
+        let currentIndex = 0;
+        let playing = true;
+        const images = document.querySelectorAll('#carousel img');
+        const playButton = document.getElementById('play');
+
+        function openImage(src) {
+            window.open(src, '_blank');
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage();
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage();
+        }
+
+        function showImage() {
+            images.forEach((img, index) => {
+                if (index === currentIndex) {
+                    img.style.display = 'block';
+                } else {
+                    img.style.display = 'none';
+                }
+            });
+        }
+
+        function togglePlay() {
+            if (playing) {
+                clearInterval(interval);
+                playButton.innerText = 'Play';
+            } else {
+                interval = setInterval(nextImage, 2000); // Muda de imagem a cada 2 segundos (ajuste conforme necessário).
+                playButton.innerText = 'Pause';
+            }
+            playing = !playing;
+        }
+
+        let interval = setInterval(nextImage, 2000); // Inicia o carrossel automaticamente.
+
+        showImage();
+    </script>
+</body>
+</html>
